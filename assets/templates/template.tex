@@ -1,0 +1,474 @@
+$passoptions.latex()$
+\documentclass[
+$for(babel-otherlangs)$
+  $babel-otherlangs$,
+$endfor$
+$if(babel-lang)$
+  $babel-lang$,
+$endif$
+$if(fontsize)$
+  $fontsize$,
+$endif$
+$for(classoption)$
+  $classoption$$sep$,
+$endfor$
+]{$documentclass$}
+\raggedbottom                         % Avoids large spaces between paragraphs
+$if(beamerarticle)$
+\usepackage{beamerarticle}            % needs to be loaded first
+$endif$
+\usepackage{amsmath,amssymb}
+% --
+% -- section numbering
+% --
+$if(numbersections)$
+\setcounter{secnumdepth}{$if(secnumdepth)$$secnumdepth$$else$5$endif$}
+$else$
+\setcounter{secnumdepth}{-\maxdimen}  % remove section numbering
+$endif$
+$fonts.latex()$
+$font-settings.latex()$
+$common.latex()$
+$for(header-includes)$
+$header-includes$
+$endfor$
+$after-header-includes.latex()$
+$hypersetup.latex()$
+
+$if(title)$
+\title{$title$$if(thanks)$\thanks{$thanks$}$endif$}
+$endif$
+$if(subtitle)$
+\usepackage{etoolbox}
+\makeatletter
+\providecommand{\subtitle}[1]{        % add subtitle to \maketitle
+  \apptocmd{\@title}{\par {\large #1 \par}}{}{}
+}
+\makeatother
+\subtitle{$subtitle$}
+$endif$
+\author{$for(author)$$author$$sep$ \and $endfor$}
+\date{$date$}
+
+% =============================
+% Metadata configuration
+% =============================
+\hypersetup{pdftex,
+            pdfauthor={Your Name},
+            pdftitle={The Title},
+            pdfsubject={The Subject},
+            pdfkeywords={Some Keywords},
+            pdfproducer={Latex with hyperref, or other system},
+            pdfcreator={pdflatex, or other tool}
+}
+
+% =============================
+% Package loading
+% =============================
+\usepackage{xurl}                     % Better URL line breaks
+\usepackage{float}                    % Float management
+\usepackage{xcolor}                   % Color management
+\usepackage{ifthen}                   % Condition handling
+\usepackage{fancyhdr}                 % Header and footer customization
+\usepackage{fontspec}                 % Allows using custom fonts with LuaLaTeX
+\usepackage{titlesec}                 % Title styles customization
+\usepackage{textcase}                 % Case conversion
+\usepackage{graphicx}                 % Image management
+\usepackage{geometry}                 % Margin definition
+\usepackage{hyperref}                 % Hyperlink management
+\usepackage{newunicodechar}           % Unicode character support
+
+% =============================
+% Watermark management
+% =============================
+$if(watermark)$
+  \usepackage{draftwatermark}
+  \SetWatermarkText{SPECIMEN}         % Text to display as watermark
+  \SetWatermarkScale{0.6}             % Scale of the watermark
+  \SetWatermarkAngle{25}              % Angle of the watermark
+  \SetWatermarkColor[gray]{0.85}      % Color of the watermark
+$endif$
+
+% =============================
+% Colors definition
+% =============================
+\definecolor{mainColor}{RGB}{60, 96, 164}
+
+% =============================
+% Counter management
+% =============================
+\setcounter{secnumdepth}{1}           % Sets the numbering level (H1 to H5)
+
+% =============================
+% Hyperref configuration
+% =============================
+\hypersetup{
+  breaklinks=true,                   % Allow line breaks in links
+  colorlinks=true,                   % Use colored text for all links
+  linkcolor=black,                   % Color for TOC, headers, etc.
+  urlcolor=mainColor,                % Color for URLs
+  citecolor=black                    % Optional: for references (if any)
+}
+
+% =============================
+% Figure management
+% =============================
+\let\origfigure\figure
+\let\endorigfigure\endfigure
+\renewenvironment{figure}[1][]{%
+  \origfigure[H]%
+}{%
+  \endorigfigure
+}
+
+% =============================
+% LaTeX configuration section
+% =============================
+% Command to insert cover page with specified image
+\newcommand{\insertcover}{
+  \newgeometry{margin=0pt}            % Removes margins for cover
+  \begin{titlepage}                   % Start of title page
+    \noindent\includegraphics[width=1\paperwidth,height=1\paperheight]{./assets/covers/$cover-image$}
+  \end{titlepage}
+  \restoregeometry                    % Restores default margins
+}
+
+% Command to insert back cover with specified image
+\newcommand{\insertbackcover}{
+  \newgeometry{margin=0pt}            % Removes margins for back cover
+  \begin{titlepage}                   % Start of back cover page
+    \includegraphics[width=\paperwidth,height=\paperheight]{./assets/covers/$back-cover-image$}
+  \end{titlepage}
+  \restoregeometry                    % Restores default margins
+}
+
+% =============================
+% Modifiable parameters
+% =============================
+% Title configuration variables
+\newcommand{\TitleUppercase}{true}    % Enable/disable uppercase for titles
+\newcommand{\TitleNumbering}{true}    % Enable/disable title numbering
+\newcommand{\HOneColor}{mainColor}    % H1 titles color
+\newcommand{\HTwoColor}{black}        % H2 titles color
+\newcommand{\HThreeColor}{black}      % H3 titles color
+\newcommand{\HFourColor}{black}       % H4 titles color
+\newcommand{\HFiveColor}{black}       % H5 titles color
+
+% Function to handle title uppercase formatting
+\newcommand{\TitleFormat}[1]{%
+  \ifthenelse{\equal{\TitleUppercase}{true}}{\MakeUppercase{#1}}{#1}%
+}
+
+% =============================
+% Unicode character configuration - for shortcuts
+% =============================
+\newunicodechar{⌃}{{\fontspec{Noto Sans Symbols}⌃}}
+\newunicodechar{⌘}{{\fontspec{Noto Sans Symbols 2}⌘}}
+\newunicodechar{⏎}{{\fontspec{Noto Sans Symbols 2}⏎}}
+\newunicodechar{⌥}{{\fontspec{Noto Sans Symbols 2}⌥}}
+\newunicodechar{⇧}{{\fontspec{Noto Sans Symbols 2}⇧}}
+
+% =============================
+% Main font configuration
+% =============================
+\setmainfont{Glegoo}                  % Main font for the document
+\newfontfamily\codeFont{Hack}[        % Font for code blocks
+  Scale=0.9
+]
+
+% Title font configuration
+\newfontfamily\hOneFont{Anton}        % H1 title font
+\newfontfamily\hTwoFont{Anton}        % H2 title font
+\newfontfamily\hThreeFont{Anton}      % H3 title font
+\newfontfamily\hFourFont{Anton}       % H4 title font
+\newfontfamily\hFiveFont{Anton}       % H5 title font
+% No native H6 title with LaTeX
+
+\newfontfamily\emphFont{Lora}[        % Emphasis font configuration
+  ItalicFont = * Italic
+]
+
+% Redefine \emph to use the new font
+\let\oldemph\emph
+\renewcommand{\emph}[1]{{\emphFont\textit{#1}}}
+
+% Emoji configuration
+\newfontfamily{\notoemojiFont}{Noto Emoji Regular}[
+  Renderer=HarfBuzz,
+  Scale=1.0
+]
+\DeclareTextFontCommand{\notoemojiSymbol}{\notoemojiFont}
+
+\renewcommand{\baselinestretch}{1.2}  % Global line spacing configuration
+
+% =============================
+% Title styles definition
+% =============================
+% --- Title H1 ---
+\titleformat{\chapter}
+  [block]                                 % Block format to take full width
+  {\hOneFont\addfontfeature{LetterSpace=1}\fontsize{36pt}{30pt}\bfseries\color{\HOneColor}}   % Style: font, size, bold, color
+  {\ifthenelse{\equal{\TitleNumbering}{true}}{\thechapter\hspace{-0.5em}}{}}   % Conditional numbering
+  {1em}                                   % Spacing before title
+  {\TitleFormat}                          % Apply format (uppercase if enabled)
+
+% --- Section H2 ---
+\titleformat{\section}
+  {\hTwoFont\addfontfeature{LetterSpace=4}\fontsize{26pt}{20pt}\bfseries\color{\HTwoColor}}
+  {\ifthenelse{\equal{\TitleNumbering}{true}}{\thesection\hspace{-0.5em}}{}}  % Conditional numbering
+  {1em}                                   % Spacing before title
+  {\TitleFormat}                          % Title format
+\titlespacing*{\section}{8pt}{40pt}{30pt} % Spacing: {left}{avabeforent}{after}
+% Force a new page for each new section except the first
+\let\OldSection\section
+\renewcommand{\section}{\ifnum\value{section}=0\clearpage\fi\OldSection}
+
+% --- Subsection H3 ---
+\titleformat{\subsection}
+  {\hThreeFont\addfontfeature{LetterSpace=6}\fontsize{22pt}{20pt}\bfseries} % H3 title style
+  {\thesubsection}{1em}{}
+\titlespacing*{\subsection}{0pt}{30pt}{20pt} % Spacing: {left}{avabeforent}{after}
+
+% --- Sub-subsection H4 ---
+\titleformat{\subsubsection}
+  {\hFourFont\addfontfeature{LetterSpace=6}\fontsize{18pt}{20pt}\bfseries} % H4 title style
+  {\thesubsubsection}{1em}{}
+\titlespacing*{\subsubsection}{0pt}{20pt}{10pt} % Spacing: {left}{avabeforent}{after}
+
+% --- H5 ---
+\titleformat{\paragraph}
+  {\hFiveFont\addfontfeature{LetterSpace=6}\fontsize{16pt}{18pt}\bfseries} % H5 title style
+  {\theparagraph}{1em}{}
+\titlespacing*{\paragraph}{0pt}{10pt}{10pt} % Spacing: {left}{avabeforent}{after}
+
+% =============================
+% Margin and layout management
+% =============================
+\usepackage[strict]{changepage} % Advanced margin management
+
+\geometry{
+  paperwidth=190mm,   % Paper width
+  paperheight=230mm,  % Paper height
+  inner=24mm,         % Inner margin (binding side)
+  outer=24mm,         % Outer margin
+  top=24mm,           % Top margin
+  bottom=36mm,        % Bottom margin
+  footskip=16mm,      % Distance between text and page number
+  bindingoffset=12mm  % Binding offset
+}
+
+% Defines space between text and footnotes
+\renewcommand{\footnoterule}{\vspace{18pt}\hrule width 0.3\textwidth \vspace{5pt}}
+
+% =============================
+% Page number management
+% =============================
+\fancyhf{}                                               % Clear default headers and footers
+\fancyhead[C]{\fontsize{8pt}{10pt}\selectfont\leftmark}  % Header: using same size for font and leadingfor consistent sizing
+\fancyfoot[LE,RO]{\thepage}                              % Page numbering on left for odd pages and right for even pages
+\pagestyle{fancy}                                        % Activate custom style
+\renewcommand{\headrulewidth}{0pt}                       % Remove header line
+\renewcommand{\footrulewidth}{0pt}                       % Remove footer line
+\renewcommand{\chaptermark}[1]{\markboth{\MakeUppercase{#1}}{}}
+
+\assignpagestyle{\chapter}{empty}
+
+% Page number for the toc
+\makeatletter
+\renewcommand\tableofcontents{%
+  \if@twocolumn
+    \@restonecoltrue\onecolumn
+  \else
+    \@restonecolfalse
+  \fi
+  \chapter*{\contentsname
+    \@mkboth{%
+      \MakeUppercase\contentsname}{\MakeUppercase\contentsname}}%
+  {\renewcommand{\thepage}{\roman{page}}
+  \thispagestyle{plain}\pagestyle{plain}
+  \@starttoc{toc}%
+  \if@restonecol\twocolumn\fi\clearpage}
+}
+\makeatother
+
+% =============================
+% Inline code and code block formatting
+% =============================
+\usepackage[listings, skins, breakable]{tcolorbox}  % Load package with correct options
+
+% =============================
+% Inline code (gray background, rounded, Hack font)
+% =============================
+\DeclareTotalTCBox{\texttt}{m}{%
+  fontupper=\codeFont,
+  colback=gray!10,                     % Gray background
+  arc=4pt,                             % Rounded corners
+  boxrule=0pt,                         % No border
+  left=4pt, right=4pt,                 % Horizontal internal spacing
+  top=0pt, bottom=0pt,                 % Vertical internal spacing
+  boxsep=0.5pt,                        % Space between content and border
+  on line                              % Render inline with surrounding text
+}{\strut\foreignlanguage{english}{#1}} % Prevent French spacing rules inside code
+
+% =============================
+% Code blocks (gray background, rounded, Hack font)
+% =============================
+\DeclareTCBListing{verbatim}{}{
+  colback=gray!10,                     % Light gray background for block
+  arc=4pt,                             % Rounded corners (4px)
+  boxrule=0pt,                         % Border thickness
+  listing only,                        % No extra space around
+  breakable,                           % Allow page break
+  fontupper=\codeFont,                 % Apply code font
+  enhanced,                            % Improve background and border rendering
+  listing engine=listings,
+  listing options={
+    basicstyle=\codeFont\small,
+    breaklines=true,                   % Enable automatic line breaking
+    breakatwhitespace=false,           % Allow breaking inside words
+    postbreak=\mbox{\textcolor{gray}{\(\hookrightarrow\)}},  % Visual cue for continued lines
+    breakindent=0pt,                   % No indent on wrapped lines
+  }
+}
+
+% =============================
+% Alerts
+% =============================
+% Color definitions for each alert type
+\definecolor{notecolor}{HTML}{183394}      % Blue for notes
+\definecolor{tipcolor}{HTML}{339418}       % Green for tips
+\definecolor{importantcolor}{HTML}{FFC800} % Yellow for important
+\definecolor{warningcolor}{HTML}{FF7500}   % Orange for warning
+\definecolor{cautioncolor}{HTML}{BD0404}   % Red for caution
+
+\newtcolorbox{alertblock}[2]{
+  enhanced,                                % Enable advanced features
+  fontupper=\raggedright,                  % Align text to left
+  colback=gray!5,                          % Light gray background (5%)
+  boxrule=0pt,                             % No border
+  arc=4pt,                                 % Rounded corners
+  frame empty,                             % No frame
+  left=4mm,                                % Left margin
+  right=2mm,                               % Right margin
+  top=4mm,                                 % Top margin
+  bottom=4mm,                              % Bottom margin
+  before upper={%                          % Start of block structure
+    \begin{minipage}[c]{\dimexpr\linewidth-4mm\relax}
+      \begin{minipage}[c]{8mm}
+        \includegraphics[height=7mm]{#2.pdf}
+      \end{minipage}%
+      \hspace{3mm}\textcolor{#1}{\vrule width 1pt}\hspace{4mm}%
+      \begin{minipage}[c]{\dimexpr\linewidth-14mm\relax} % Accurate calculation of the space required
+  },
+  after upper={%                           % Close both minipages
+      \end{minipage}%
+    \end{minipage}%
+  }
+}
+
+\begin{document}
+
+% Remove page numbers for cover and following blank page
+\pagestyle{empty}
+
+% Insert cover on first page
+\insertcover
+\clearpage
+
+% Add a single blank page after cover
+\mbox{}
+
+% Reactivate page style but without displaying number on this blank page
+\pagestyle{empty}
+\pagenumbering{arabic}
+\setcounter{page}{1}
+
+% Display page numbers from the first real content page
+\clearpage
+\pagestyle{fancy}
+
+%$if(has-frontmatter)$
+%\frontmatter
+%$endif$
+$if(title)$
+\maketitle
+$if(abstract)$
+\begin{abstract}
+$abstract$
+\end{abstract}
+$endif$
+$endif$
+
+$for(include-before)$
+$include-before$
+$endfor$
+
+$if(toc)$
+$if(toc-title)$
+\renewcommand*\contentsname{$toc-title$}
+$endif$
+{
+% $if(colorlinks)$
+% \hypersetup{linkcolor=$if(toccolor)$$toccolor$$else$$endif$}
+% $endif$
+\setcounter{tocdepth}{$toc-depth$}
+\addtocontents{toc}{\protect\vspace{2mm}} % Space between title and toc
+
+\clearpage
+\thispagestyle{empty} % Remove header on this page
+\tableofcontents
+\markboth{}{} % Clear header
+\clearpage
+\thispagestyle{empty} % Also remove header on the next page
+}
+$endif$
+
+$if(lof)$
+\listoffigures
+$endif$
+$if(lot)$
+\listoftables
+$endif$
+$if(linestretch)$
+\setstretch{$linestretch$}
+$endif$
+%$if(has-frontmatter)$
+%\mainmatter
+%$endif$
+
+% Main content
+$body$
+
+%$if(has-frontmatter)$
+%\backmatter
+%$endif$
+$if(nocite-ids)$
+\nocite{$for(nocite-ids)$$it$$sep$, $endfor$}
+$endif$
+$if(natbib)$
+$if(bibliography)$
+$if(biblio-title)$
+$if(has-chapters)$
+\renewcommand\bibname{$biblio-title$}
+$else$
+\renewcommand\refname{$biblio-title$}
+$endif$
+$endif$
+\bibliography{$for(bibliography)$$bibliography$$sep$,$endfor$}
+
+$endif$
+$endif$
+$if(biblatex)$
+\printbibliography$if(biblio-title)$[title=$biblio-title$]$endif$
+
+$endif$
+$for(include-after)$
+$include-after$
+
+$endfor$
+
+% New page before the last cover
+\newpage
+\insertbackcover
+
+\end{document}

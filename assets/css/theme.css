@@ -1,0 +1,232 @@
+@import url('https://cdn.jsdelivr.net/npm/hack-font@3/build/web/hack.css');
+@import url('https://fonts.googleapis.com/css2?family=Anton&family=Glegoo:wght@400;700&family=Lora:ital,wght@0,400..700;1,400..700&display=swap');
+
+/* Global document body style */
+body {
+  max-width: 46em;
+  font-family: 'Glegoo', serif;
+  font-weight: 400;
+  font-style: normal;
+  font-size: 1em;
+  line-height: 1.3;
+}
+
+/* Heading styles */
+h1, h2, h3, h4, h5, h6 {
+  font-family: "Anton", sans-serif;
+  font-weight: 400;
+}
+
+p {
+  text-align: justify;
+  hyphens: auto;
+}
+
+em, strong {
+  font-family: "Lora", serif;
+  font-optical-sizing: auto;
+}
+
+strong {
+  font-weight: bold;
+}
+
+em {
+  font-style: italic;
+}
+
+table {
+  margin: 1.6em auto; /* Center table horizontally */
+  border-collapse: collapse; /* Remove spaces between cells */
+  width: auto; /* Adjust width to content */
+  max-width: 100%; /* Prevent overflow from container */
+  font-variant-numeric: lining-nums tabular-nums; /* Use tabular numbers */
+  display: table; /* Ensure proper table display */
+}
+
+figure, img {
+  margin: 1.6em auto; /* Center images and figures */
+  display: block; /* Display images and figures as blocks */
+  max-width: 100%; /* Prevent overflow from container */
+}
+
+figcaption {
+  text-align: center; /* Center caption text */
+}
+
+/* Inline code element style */
+code {
+  font-family: 'Hack', monospace;
+  background-color: rgba(238, 238, 238, 0.5);
+  border-radius: 4px;
+  padding: 0.1em 0.4em;
+}
+
+pre {
+  font-family: 'Hack', monospace;
+  background-color: rgba(238, 238, 238, 0.5) !important;
+  border-radius: 4px;
+  padding: 1em;
+  overflow-x: auto;
+}
+
+pre > code {
+  background: none;
+  padding: 0;
+}
+
+pre code, .sourceCode[class*=" "] {
+  overflow-wrap: anywhere;  /* Allow breaking long words */
+  white-space: pre-wrap;    /* Preserve whitespace */
+  word-break: break-all;    /* Break long lines */
+}
+
+/* Define French quotation marks */
+:lang(fr) q {
+  quotes: "« " " »" "‹ " " ›";
+}
+
+/* Define American English quotation marks */
+:lang(en-US) q, :lang(en) q {
+  quotes: "“" "”" "‘" "’";
+}
+
+/* Define British English quotation marks */
+:lang(en-GB) q {
+  quotes: "‘" "’" "“" "”";
+}
+
+/* Define German quotation marks */
+:lang(de) q {
+  quotes: "„" "“" "‚" "‘";
+}
+
+/* Define Italian quotation marks */
+:lang(it) q {
+  quotes: "«" "»" "‹" "›";
+}
+
+/* Define Spanish quotation marks */
+:lang(es) q {
+  quotes: "«" "»" "“" "”";
+}
+
+/* Define Japanese quotation marks */
+:lang(ja) q {
+  quotes: "「" "」" "『" "』";
+}
+
+/* Apply quotation marks before and after <q> elements */
+q::before {
+  content: open-quote;
+}
+
+q::after {
+  content: close-quote;
+}
+
+blockquote:has(.alert-icon img[src*="note.svg"]) {
+  --alert-color: #183394;
+}
+
+blockquote:has(.alert-icon img[src*="lightbulb.svg"]) {
+  --alert-color: #339418;
+}
+
+blockquote:has(.alert-icon img[src*="warning.svg"]) {
+  --alert-color: #FF7500;
+}
+
+blockquote:has(.alert-icon img[src*="important.svg"]) {
+  --alert-color: #FFC800;
+}
+
+blockquote:has(.alert-icon img[src*="fire.svg"]) {
+  --alert-color: #BD0404;
+}
+
+blockquote:has(> div.alert-icon):has(> div.alert-content) {
+  display: flex;
+  align-items: stretch;
+  margin-left: 0;
+  border-left: 0;
+  border-radius: 4px;
+  background-color: #f9f9f9;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+blockquote#alert-warning-1 {
+  display: flex;
+  margin-left: 0;
+}
+
+/* Alert base styles */
+blockquote.alert {
+  margin: 1.5em 0;
+  background-color: #f9f9f9;
+  border-radius: 4px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+  display: flex;
+  align-items: stretch;
+}
+
+/* Icon container */
+.alert-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+/* Icon styling */
+.alert-icon img {
+  width: 32px;
+  height: 32px;
+  margin: 0 16px 0 0;
+}
+
+/* Vertical line after icon */
+.alert-icon::after {
+  content: '';
+  position: absolute;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  margin: 14px 0;
+  background-color: var(--alert-color, #ccc);
+}
+
+/* Content container */
+.alert-content {
+  flex: 1;
+  padding: 1.2em;
+}
+
+/* Remove unnecessary <br> */
+.alert br {
+  display: none;
+}
+
+.alert-content br:first-child {
+  display: none;
+}
+
+/* Alert elements spacing */
+.alert-content > * {
+  margin: 0.8em 0;
+}
+
+.alert-content > *:first-child {
+  margin-top: 0;
+}
+
+.alert-content > *:last-child {
+  margin-bottom: 0;
+}
+
+/* Lists inside alert */
+.alert-content ul,
+.alert-content ol {
+  padding-left: 1.5em;
+}

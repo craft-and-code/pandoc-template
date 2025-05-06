@@ -1,0 +1,23 @@
+from: markdown+hard_line_breaks+mark+emoji
+to: pdf
+pdf-engine: lualatex
+template: ./assets/templates/template.tex
+top-level-division: chapter
+metadata:
+  lang: en-US                         # Document language
+  documentclass: book                 # LaTeX document class
+  fontsize: 10pt                      # Base font size
+  csquotes: true                      # Enable smart quotes
+  toc: true                           # Generate table of contents
+  toc-title: "Table of contents"      # Table of contents title
+  cover-image: "cover.png"            # Front cover image
+  back-cover-image: "backcover.png"   # Back cover image
+highlight-style: null
+resource-path:
+  - .
+  - assets/icons/
+filters:
+  - ./assets/filters/alert.lua
+  - ./assets/filters/center-images.lua
+  - ./assets/filters/emoji.lua
+  - ./assets/filters/newpage.lua

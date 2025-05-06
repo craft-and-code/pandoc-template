@@ -1,0 +1,20 @@
+from: markdown+hard_line_breaks+mark+emoji
+to: html5
+html-q-tags: true
+template: ./assets/templates/template.html
+metadata:
+  lang: en
+  title: "My Document Title"
+  author: "Your Name"
+  date: "2025-04-04"
+  description: "A brief description of the document."
+  keywords: "markdown, pandoc, html"
+html-math-method: katex
+highlight-style: pygments
+standalone: true
+toc: false
+filters:
+  - ./assets/filters/alert-html.lua
+  - ./assets/filters/newpage.lua
+include-in-header:
+  - assets/html/include-scripts.html
