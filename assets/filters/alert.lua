@@ -29,8 +29,11 @@ function BlockQuote(el)
           end,
           Space = function() return " " end,
           Code = function(s)
-            local text = s.text:gsub("([%$%_%{%}%&%#])", "\\%1")
-                               :gsub("%^", "\\string^")
+            local text = s.text
+              :gsub("([%$%_%{%}%&%#])", "\\%1")
+              :gsub("%^", "\\string^")
+              :gsub("```", "\\string`\\string`\\string`")
+              :gsub("~~~", "\\string~\\string~\\string~")
             return "\\texttt{" .. text .. "}"
           end,
           Link = function(s)
